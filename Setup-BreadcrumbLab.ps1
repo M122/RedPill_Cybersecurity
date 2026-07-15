@@ -22,7 +22,7 @@ The activity is benign and uses localhost/example.com.
 
 [CmdletBinding()]
 param(
-    [string]$LabPath = "C:\WazuhBreadcrumbLab"
+    [string]$LabPath = "C:\Public\Downloads\WazuhBreadcrumbLab"
 )
 
 $ErrorActionPreference = "Stop"
@@ -32,7 +32,7 @@ New-Item -Path "$LabPath\evidence" -ItemType Directory -Force | Out-Null
 
 $stage1 = @'
 $ErrorActionPreference = "Continue"
-$lab = "C:\WazuhBreadcrumbLab"
+$lab = "C:\Public\Downloads\WazuhBreadcrumbLab"
 "Stage 1 started: $(Get-Date -Format o)" | Out-File "$lab\evidence\stage1.txt"
 "User: $env:USERNAME`r`nComputer: $env:COMPUTERNAME" | Out-File "$lab\evidence\host_context.txt"
 
@@ -44,14 +44,14 @@ Start-Process -FilePath "$env:ComSpec" `
 
 $stage2 = @'
 @echo off
-echo Stage 2 started: %DATE% %TIME% > C:\WazuhBreadcrumbLab\evidence\stage2.txt
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File C:\WazuhBreadcrumbLab\stage3.ps1
+echo Stage 2 started: %DATE% %TIME% > C:\Public\Downloads\WazuhBreadcrumbLab\evidence\stage2.txt
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File C:\Public\Downloads\WazuhBreadcrumbLab\stage3.ps1
 exit /b
 '@
 
 $stage3 = @'
 $ErrorActionPreference = "Continue"
-$lab = "C:\WazuhBreadcrumbLab"
+$lab = "C:\Public\Downloads\WazuhBreadcrumbLab"
 
 "Stage 3 started: $(Get-Date -Format o)" | Out-File "$lab\evidence\stage3.txt"
 "This is harmless lab data." | Out-File "$lab\evidence\quarterly_notes.txt"
@@ -68,7 +68,7 @@ Start-Process -FilePath "powershell.exe" `
 
 $stage4 = @'
 $ErrorActionPreference = "Continue"
-$lab = "C:\WazuhBreadcrumbLab"
+$lab = "C:\Public\Downloads\WazuhBreadcrumbLab"
 "Stage 4 started: $(Get-Date -Format o)" | Out-File "$lab\evidence\stage4.txt"
 
 Start-Process -FilePath "$env:ComSpec" -ArgumentList '/d','/c',"tasklist > `"$lab\evidence\processes.txt`"" -Wait -WindowStyle Hidden
@@ -85,7 +85,7 @@ $lure = @'
 @echo off
 title Quarterly Bonus Review
 echo Preparing quarterly review...
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File C:\WazuhBreadcrumbLab\stage1.ps1
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File C:\Public\Downloads\WazuhBreadcrumbLab\stage1.ps1
 echo.
 echo The document could not be displayed.
 timeout /t 2 /nobreak >nul
